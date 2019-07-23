@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import { Platform, View } from 'react-native';
 import BusinessList from './BusinessList'
 import BusinessDetails from './BusinessDetails'
+import Preferences from './Preferences'
 import { createStackNavigator, createAppContainer, createBottomTabNavigator} from 'react-navigation'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-const RootStack = createStackNavigator({
+const BusinessStack = createStackNavigator({
   businessList: {
     screen: BusinessList,
   },
@@ -15,9 +16,16 @@ const RootStack = createStackNavigator({
   },
 
 });
+
+const PreferencesStack = createStackNavigator({
+  preferences: {
+    screen: Preferences,
+  },
+
+});
 const RootTab = createBottomTabNavigator({
   Todos: {
-    screen: RootStack,
+    screen: BusinessStack,
     navigationOptions: {
       title: 'Todos',
       tabBarIcon: () => <Ionicons name="ios-restaurant" size={25} color='darkblue' />,
@@ -26,7 +34,7 @@ const RootTab = createBottomTabNavigator({
     }
   },
   Preferencias: {
-    screen: RootStack,
+    screen: PreferencesStack,
     navigationOptions: {
       title: 'Configuración',
       tabBarIcon: () => <Ionicons name="ios-menu" size={25} color='darkblue' />,
