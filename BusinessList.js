@@ -2,10 +2,10 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  ScrollView,
   RefreshControl,
   View,
   FlatList,
+  Text
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -46,6 +46,7 @@ export default class BusinessList extends Component<Props> {
             this.mAverageS = await AsyncStorage.getItem('averageS') == "1" ? true: false;
             this.mExpensiveS = await AsyncStorage.getItem('expensiveS') == "1" ? true: false;
             this.mVeryExpensiveS = await AsyncStorage.getItem('veryExpensiveS') == "1" ? true: false;
+            this.mTextLocation = await AsyncStorage.getItem('textLocation');
         }
         catch (error){
             console.error(error);
@@ -59,16 +60,18 @@ export default class BusinessList extends Component<Props> {
             this.mAverageS = true;
             this.mExpensiveS = true;
             this.mVeryExpensiveS = true;
+            this.mTextLocation = "Madrid, las rozas"
             AsyncStorage.setItem('distance', this.mDistance);
             AsyncStorage.setItem('resultsLimit', this.mResultsLimit);
             AsyncStorage.setItem('cheapS', this.mCheapS);
             AsyncStorage.setItem('averageS', this.mAverageS);
             AsyncStorage.setItem('expensiveS', this.mExpensiveS);
             AsyncStorage.setItem('veryExpensiveS', this.mVeryExpensiveS);
+            AsyncStorage.setItem('textLocation', this.mTextLocation);
             
         }
 
-        this.yelpApiClient.getBusinessList(this.mDistance, this.mResultsLimit, this.createPriceParam())
+        this.yelpApiClient.getBusinessList(this.mDistance, this.mResultsLimit, this.createPriceParam(), this.mTextLocation)
             .then((results) => {
                 let businesses = results.businesses || []; 
                 let myBusinesses = businesses.map((business) => {
@@ -128,36 +131,61 @@ export default class BusinessList extends Component<Props> {
     }
 
     render(){
-        return (
-        <View style={styles.container}>
-            <FlatList
-            refreshControl={
-                <RefreshControl
-                    refreshing={this.state.refreshing}
-                    onRefresh={this._onRefresh}
-                />
-            }
-            data= {this.state.businesses}
-            renderItem={({item}) => 
-            (
-                <BusinessCell name={item.business.name} 
-                distance={item.business.distance.toFixed(1)}
-                image_url={item.business.image_url}
-                onPress = {
-                    () => {
-                        this.props.navigation.navigate('businessDetails',{
-                            business: item.business,
-                        });
+        if(this.state.businesses.length == 0){
+            return (
+                <View style={styles.container}>
+                    <FlatList
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh}
+                        />
                     }
-                }
-                />
-                
-            )}
-            
-            />
-            
-        </View>
-        );
+                    data= {this.state.businesses}
+                    renderItem={({item}) => 
+                    (
+                        <Text> ... Opps</Text>
+                    )}
+                    
+                    />
+                    <Text> ... Opps. No hay resultados. Ve al tab Configuración.</Text>
+                    
+                </View>
+            )
+        }
+        else{
+            return (
+                <View style={styles.container}>
+                    <FlatList
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh}
+                        />
+                    }
+                    data= {this.state.businesses}
+                    renderItem={({item}) => 
+                    (
+                        <BusinessCell name={item.business.name} 
+                        distance={item.business.distance.toFixed(1)}
+                        image_url={item.business.image_url}
+                        onPress = {
+                            () => {
+                                this.props.navigation.navigate('businessDetails',{
+                                    business: item.business,
+                                });
+                            }
+                        }
+                        />
+                        
+                    )}
+                    
+                    />
+                    
+                </View>
+            );
+        }
+        
     }
 }
 

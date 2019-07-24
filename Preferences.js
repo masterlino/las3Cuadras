@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Switch
+  Switch,
+  TextInput
 } from 'react-native';
 import Slider from "react-native-slider";
 import AsyncStorage from '@react-native-community/async-storage';
@@ -19,6 +20,7 @@ export default class Preferences extends Component
     averageS: true,
     expensiveS: true,
     veryExpensiveS: true,
+    textLocation: "",
   };
 
   static navigationOptions = {
@@ -41,6 +43,7 @@ export default class Preferences extends Component
     let mAverageS = true;
     let mExpensiveS = true;
     let mVeryExpensiveS = true;
+    let mTextLocation = ""
 
 
     try{
@@ -56,6 +59,8 @@ export default class Preferences extends Component
       this.setState({expensiveS: mExpensiveS});
       mVeryExpensiveS = await AsyncStorage.getItem('veryExpensiveS') == "1" ? true: false;
       this.setState({veryExpensiveS: mVeryExpensiveS});  
+      mTextLocation = await AsyncStorage.getItem('textLocation');
+      this.setState({textLocation: mTextLocation});  
     }
     catch (error){
       console.error(error);
@@ -115,21 +120,35 @@ export default class Preferences extends Component
             onValueChange = {this.toggleVeryExpensive}
             value = {this.state.veryExpensiveS}/>
         </View>
-          <Text>
-            LIMITE DE RESULTADOS (1 - 50): {this.state.resultsLimit}
-          </Text>
-          <Slider
-            value={this.state.resultsLimit}
-            minimumValue = {1}
-            maximumValue = {50}
-            step = {1}
-            onValueChange={value => {
-                this.setState({ resultsLimit: value });
-                AsyncStorage.setItem('resultsLimit', value);
-              }
+        <Text>
+          LIMITE DE RESULTADOS (1 - 50): {this.state.resultsLimit}
+        </Text>
+        <Slider
+          value={this.state.resultsLimit}
+          minimumValue = {1}
+          maximumValue = {50}
+          step = {1}
+          onValueChange={value => {
+              this.setState({ resultsLimit: value });
+              AsyncStorage.setItem('resultsLimit', value);
             }
-          />
-        
+          }
+        />
+        <Text>
+          Localizacion (ej. "New York City", "NYC", "350 5th Ave, New York, NY 10118"): }
+        </Text>
+        <TextInput
+          style={styles.textAddress}
+          multiline = {true}
+          numberOfLines = {2}
+          onChangeText={(text) => {this.setState({textLocation: text});
+                                  AsyncStorage.setItem('textLocation', text);
+                                  }}
+          value={this.state.textLocation}
+          editable = {true}
+          maxLength = {40}
+          autoFocus = {true}
+        />
         
       </View> 
     );
@@ -169,5 +188,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'stretch',
   },
+  textAddress:{
+    color: 'darkblue',
+    backgroundColor: 'aliceblue',
+    marginTop: 5,
+  }
 
 });

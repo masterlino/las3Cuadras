@@ -1,22 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Image,
   ScrollView,
   Text,
   View,
-  ListView,
   FlatList
 } from 'react-native';
 
 import yelpApiFetch from './yelpApiFetch'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 export default class BusinessDetails extends Component
 {
@@ -65,8 +59,6 @@ export default class BusinessDetails extends Component
 
   renderHeader(business)
   {
-   //alert(this.state.photosUrl)
-    
     return (
     <View style={styles.headerContainer}>
        <FlatList horizontal={true}
@@ -79,14 +71,25 @@ export default class BusinessDetails extends Component
 
   renderOverview(business)
   {
+    let name = business.name == null ? "Indefinido." : business.name;
+    let phone = business.phone == null ? "Indefinido." : business.phone;
+    let is_claimed = business.is_claimed == null ? "Indefinido." : this.BoolToYesNo(business.is_claimed);
+    let is_closed = business.is_closed == null ? "Indefinido." : this.BoolToYesNo(business.is_closed);
+    let review_count = business.review_count == null ? "Indefinido." : business.review_count;
+    let rating = business.rating == null ? "Indefinido." : business.rating;
+    let location = business.location.address1 + ", " + business.location.city
+    let price = business.price
+
     return (
       
       <View style={styles.titleContainer}>
-        <Text>{business.name}</Text>
-        <Text>{business.phone}{business.price}</Text>
-        <Text style={styles.item}>
-        {business.is_closed.toString()}
-      </Text>
+        <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-beer" size={20} color='darkblue' /><Text>{name}</Text></View>
+        <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-call" size={20} color='darkblue' /><Text>{phone}</Text></View>
+        <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-alarm" size={20} color='darkblue' /><Text>Cerrado: {is_closed}</Text></View>
+        <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-trophy" size={20} color='darkblue' /><Text>Valoracion: {rating}</Text></View>
+        <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-flag" size={20} color='darkblue' /><Text>Revisiones: {review_count}</Text></View>
+        <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-cash" size={20} color='darkblue' /><Text>Nivel de Precio: {price}</Text></View>
+        <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-walk" size={20} color='darkblue' /><Text>{location}</Text></View>
       </View>
      
     );
@@ -94,28 +97,15 @@ export default class BusinessDetails extends Component
 
   renderMap(business)
   {
-    if (business.genres == null)
-    {
       return [];
-    }
+  }
 
-    return (
-      <View style={[styles.item, styles.dataContainer]}>
-        <Text style={styles.dataTitle}>
-          Genre: 
-        </Text>
-        {business.genres.map((genre) => {
-          return (
-            <Text style={styles.genre} key={genre.id}>
-              {genre.name}
-            </Text>
-          )
-        })
-        }
-      </View>
-    );
+  BoolToYesNo(value){
+    return value ? "Si" : "No";
   }
 }
+
+  
 
 const styles = StyleSheet.create({
   container: {
@@ -130,35 +120,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 0,
   },
-  item: {
-    marginVertical: 5,
-  },
-  dataContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  dataTitle: {
-    fontWeight: 'bold',
-  },
-  genre: {
-    paddingHorizontal: 2,
-    marginHorizontal: 2,
-    marginVertical: 1,
-    backgroundColor: 'lightgray'
-  },
   titleContainer: {
     flex: 1,
     marginLeft: 10,
     justifyContent: 'center',
   },
-  image: {
-    width: 150,
-    height: 250,
-  },
   imageScroll: {
     width: 300,
     height: 350,
   },
+  iconContainer: {
+    marginEnd: 50,
+  },
+  cell: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginEnd: 60,
+    marginStart: 60
+
+  }
 
 
 });

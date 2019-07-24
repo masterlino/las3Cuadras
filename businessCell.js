@@ -47,7 +47,7 @@ export default class BusinessCell extends Component
           <Image style={styles.image} resizeMode="contain" source={{ uri: this.props.image_url }} />
           <View style={styles.detailContainer}>
             <Text style={styles.titleContainer}>{this.props.name}</Text>
-            <Text style={styles.distanceContainer}>{this.props.distance} km</Text>
+            <Text style={styles.distanceContainer}>{this.props.distance} m</Text>
             <Ionicons style={styles.iconContainer} name="ios-locate" size={20} color='darkblue' />
           </View>
         </Animated.View>
