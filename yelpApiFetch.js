@@ -6,7 +6,6 @@ export default class YelpApiFetch
 
   getBusinessList(radius, limit, price){
     let url = `https://api.yelp.com/v3/businesses/search?latitude=37.4220107&longitude=-122.0840239&limit=${limit}&radius=${radius}&price=${price}`;
-    console.warn(url);
     var myHeaders = new Headers();
     myHeaders.append('Authorization', YelpApiFetch.API_KEY)
     var request = new Request(url, {

@@ -49,6 +49,10 @@ const AppContainer = createAppContainer(RootTab);
 type Props = {};
 export default class App extends Component<Props> {
 
+  state = {
+    index: 0,
+  };
+
   render() {
     return (
       <AppContainer />

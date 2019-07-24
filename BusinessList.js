@@ -28,6 +28,11 @@ export default class BusinessList extends Component<Props> {
         this.yelpApiClient = new yelpApiFetch();
     }
 
+    componentWillMount(){
+        this.loadPreferences(); 
+    }
+    com
+
     async loadPreferences(){
         try{
             this.mDistance = await AsyncStorage.getItem('distance');
@@ -99,12 +104,6 @@ export default class BusinessList extends Component<Props> {
             }
         }
         return pricesStringParameter;
-    }
-
-    componentWillMount(){
-        console.warn("lino" + this.mDistance);
-        this.loadPreferences();
-        
     }
 
     render(){
