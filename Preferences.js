@@ -26,9 +26,7 @@ export default class Preferences extends Component
   };
 
   constructor(props) {
-    super(props);
-
-    
+    super(props);    
   }
   
   componentWillMount() {
@@ -36,6 +34,7 @@ export default class Preferences extends Component
   }
 
   async loadPreferences() {
+    
     let mDistance = 0;
     let mResultsLimit = 1;
     let mCheapS = true;
@@ -56,9 +55,7 @@ export default class Preferences extends Component
       mExpensiveS = await AsyncStorage.getItem('expensiveS') == "1" ? true: false;
       this.setState({expensiveS: mExpensiveS});
       mVeryExpensiveS = await AsyncStorage.getItem('veryExpensiveS') == "1" ? true: false;
-      this.setState({veryExpensiveS: mVeryExpensiveS});
-    
-      
+      this.setState({veryExpensiveS: mVeryExpensiveS});  
     }
     catch (error){
       console.error(error);
@@ -140,7 +137,6 @@ export default class Preferences extends Component
 
 toggleCheap = (value) => {
     this.setState({cheapS: value});
-    console.warn(typeof value);
     AsyncStorage.setItem('cheapS', value);
  }
 
