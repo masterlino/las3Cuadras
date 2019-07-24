@@ -45,6 +45,8 @@ export default class Preferences extends Component
 
     try{
       mDistance = await AsyncStorage.getItem('distance');
+      console.warn(mDistance);
+      
       this.setState({distance: parseInt(mDistance, 10)});
       mResultsLimit = await AsyncStorage.getItem('resultsLimit');
       this.setState({resultsLimit: parseInt(mResultsLimit, 10)});

@@ -54,11 +54,18 @@ export default class BusinessList extends Component<Props> {
         if (this.mDistance == null){
             //use default params if there are no preferences stored
             this.mDistance = 3000;
-            this.mResultsLimit = 1;
+            this.mResultsLimit = 7;
             this.mCheapS = true;
             this.mAverageS = true;
             this.mExpensiveS = true;
             this.mVeryExpensiveS = true;
+            AsyncStorage.setItem('distance', this.mDistance);
+            AsyncStorage.setItem('resultsLimit', this.mResultsLimit);
+            AsyncStorage.setItem('cheapS', this.mCheapS);
+            AsyncStorage.setItem('averageS', this.mAverageS);
+            AsyncStorage.setItem('expensiveS', this.mExpensiveS);
+            AsyncStorage.setItem('veryExpensiveS', this.mVeryExpensiveS);
+            
         }
 
         this.yelpApiClient.getBusinessList(this.mDistance, this.mResultsLimit, this.createPriceParam())
