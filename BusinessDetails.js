@@ -84,10 +84,10 @@ export default class BusinessDetails extends Component
       
       <View style={styles.titleContainer}>
         <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-beer" size={20} color='darkblue' /><Text>{name}</Text></View>
-        <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-call" size={20} color='darkblue' /><Text>{phone}</Text></View>
         <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-alarm" size={20} color='darkblue' /><Text>Cerrado: {is_closed}</Text></View>
         <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-trophy" size={20} color='darkblue' /><Text>Valoracion: {rating}</Text></View>
         <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-flag" size={20} color='darkblue' /><Text>Revisiones: {review_count}</Text></View>
+        <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-call" size={20} color='darkblue' /><Text>{phone}</Text></View>
         <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-cash" size={20} color='darkblue' /><Text>Nivel de Precio: {price}</Text></View>
         <View style= {styles.cell}><Ionicons style={styles.iconContainer} name="ios-walk" size={20} color='darkblue' /><Text>{location}</Text></View>
       </View>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginEnd: 60,
-    marginStart: 60
+    marginStart: 40
 
   }
 
