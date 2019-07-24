@@ -1,13 +1,11 @@
 
 import React, {Component} from 'react';
 import {
-  Platform,
   StyleSheet,
   ScrollView,
+  RefreshControl,
   View,
-  Text,
   FlatList,
-  Image
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -24,9 +22,16 @@ export default class BusinessList extends Component<Props> {
     constructor(props){
         super(props)
 
-        this.state = {businesses: []};
+        this.state = {businesses: [], refreshing: false,};
         this.yelpApiClient = new yelpApiFetch();
     }
+
+    _onRefresh = () => {
+        this.setState({refreshing: true});
+        this.loadPreferences().then(() => {
+          this.setState({refreshing: false});
+        });
+      }
 
     componentWillMount(){
         this.loadPreferences(); 
@@ -110,6 +115,12 @@ export default class BusinessList extends Component<Props> {
         return (
         <View style={styles.container}>
             <FlatList
+            refreshControl={
+                <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this._onRefresh}
+                />
+            }
             data= {this.state.businesses}
             renderItem={({item}) => 
             (
