@@ -46,12 +46,21 @@ export default class BusinessList extends Component<Props> {
             this.mAverageS = await AsyncStorage.getItem('averageS') == "1" ? true: false;
             this.mExpensiveS = await AsyncStorage.getItem('expensiveS') == "1" ? true: false;
             this.mVeryExpensiveS = await AsyncStorage.getItem('veryExpensiveS') == "1" ? true: false;
-
-         
         }
         catch (error){
             console.error(error);
         }
+
+        if (this.mDistance == null){
+            //use default params if there are no preferences stored
+            this.mDistance = 3000;
+            this.mResultsLimit = 1;
+            this.mCheapS = true;
+            this.mAverageS = true;
+            this.mExpensiveS = true;
+            this.mVeryExpensiveS = true;
+        }
+
         this.yelpApiClient.getBusinessList(this.mDistance, this.mResultsLimit, this.createPriceParam())
             .then((results) => {
                 let businesses = results.businesses || []; 
