@@ -7,7 +7,7 @@ import {
   Switch,
   TextInput
 } from 'react-native';
-import Slider from "react-native-slider";
+import Slider from "@react-native-community/slider";
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default class Preferences extends Component
